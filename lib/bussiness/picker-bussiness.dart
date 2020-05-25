@@ -16,7 +16,6 @@ class filePikerBussiness {
 //      });
       // print(fileName);
     //  return await _uploadFile(file, p.basename(file.path));
-      print('cdcdcdcdc: ${p.basename(file.path)}');
       return{'file':file,'filename':p.basename(file.path)};
     } on PlatformException catch (e) {
       showDialog(
@@ -40,7 +39,6 @@ class filePikerBussiness {
   }
 
   Future<String> uploadFile(File file, String filename) async {
-
     StorageReference storageReference;
     storageReference =
         FirebaseStorage.instance.ref().child("images/$filename");
