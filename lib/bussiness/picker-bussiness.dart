@@ -8,14 +8,16 @@ import 'package:path/path.dart' as p;
 
 class filePikerBussiness {
 
-  Future<String> filePicker(BuildContext context) async {
+  Future<Map<String,dynamic>> filePicker(BuildContext context) async {
     try {
       File  file = await FilePicker.getFile(type: FileType.image);
 //      setState(() {
 //        fileName = p.basename(file.path);
 //      });
       // print(fileName);
-      return await _uploadFile(file, p.basename(file.path));
+    //  return await _uploadFile(file, p.basename(file.path));
+      print('cdcdcdcdc: ${p.basename(file.path)}');
+      return{'file':file,'filename':p.basename(file.path)};
     } on PlatformException catch (e) {
       showDialog(
           context: context,
@@ -37,7 +39,7 @@ class filePikerBussiness {
     }
   }
 
-  Future<String> _uploadFile(File file, String filename) async {
+  Future<String> uploadFile(File file, String filename) async {
 
     StorageReference storageReference;
     storageReference =

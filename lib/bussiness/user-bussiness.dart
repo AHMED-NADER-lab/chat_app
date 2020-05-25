@@ -1,21 +1,27 @@
+import 'dart:io';
 import 'package:chatapp/model/user_chat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import './picker-bussiness.dart';
 
 class UserBussiness {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  CreatNewuser(UserChat _user) async{
+  CreatNewuser(UserChat _user,File filephoto) async{
+    filePikerBussiness file=filePikerBussiness();
+    var photourl=  await file.uploadFile(filephoto, _user.Photo);
     AuthResult regsisterUser=await  _auth.createUserWithEmailAndPassword(email: _user.Email, password: _user.Password);
     print('regsisterUser  ${regsisterUser.user.uid}');
     var saveUser= await Firestore.instance.collection("Users").add(
         {
           "AuthId" : regsisterUser.user.uid,
           "UserName" : _user.UserName,
+          "photourl":photourl
         });
     print('saveUser  ${saveUser.documentID}');
     _user.Id=saveUser.documentID;
+
    return _user;
   }
 
@@ -75,3 +81,4 @@ class UserBussiness {
 
 
 }
+

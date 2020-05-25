@@ -1,8 +1,14 @@
+import 'package:chatapp/bussiness/user-bussiness.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'chat_room.dart';
 class ChatHome extends StatelessWidget {
+//  getSharedData() async{
+//    UserBussiness buss=UserBussiness();
+//    var result= await buss.GetDateSharedUser();
+//    return result;
+//  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +83,9 @@ class ChatHome extends StatelessWidget {
                      return Padding(
                        padding: const EdgeInsets.all(8.0),
                        child: ListTile(
-                         leading: ClipOval(child: Image.asset('images/default-person.jpg')),
+                         leading: CircleAvatar(backgroundImage: new NetworkImage(asyncSnapshot.data.documents[index]['photourl'])),
+
+
                          title:Text(' ${asyncSnapshot.data.documents[index]['UserName']}') ,
                          onTap: (){
 //                           Navigator.of(context).pushNamed('/ChatRoom',
@@ -93,12 +101,14 @@ class ChatHome extends StatelessWidget {
                              context,
                              MaterialPageRoute(
                                builder: (context) => ChatRoom(sendUserId:asyncSnapshot.data.documents[index]['AuthId'] ,
-                               sendUser: asyncSnapshot.data.documents[index]['UserName'],),
+                                   sendUser: asyncSnapshot.data.documents[index]['UserName'],photo:asyncSnapshot.data.documents[index]['photourl']),
                              ),
                            );
                          },
                        ),
                      );
+
+
 
                  }
              );

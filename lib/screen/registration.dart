@@ -13,7 +13,8 @@ class _RegistationState extends State<Registation> {
   String UserName;
   String Email;
   String Password;
-  String photo;
+  var photodata;
+  bool isphoto=false;
   GlobalKey<ScaffoldState> _ScaffoldKey = GlobalKey();
   UserBussiness buss=UserBussiness();
   @override
@@ -169,14 +170,22 @@ class _RegistationState extends State<Registation> {
                     RaisedButton(
                         onPressed: () async {
                           var file=filePikerBussiness();
-                          photo=  await file.filePicker(context);
+                       var resultPhoto   =  await file.filePicker(context);
+                          setState(() {
+                            photodata =resultPhoto;
+                          });
                         },
-                       child:const Text(
-                          'Choose Your Image',
+                       child: Text(photodata==null?'Choose Your Image':photodata['filename'],
                           style: TextStyle(fontSize: 20)
                       ),
 
-                    )
+                    ),
+
+                    isphoto?
+                    Text('Please Choose your Photo',
+                        style: TextStyle(color:Colors.red)
+                        ): Text('Please Choose your Photo',
+                      style: TextStyle(color:Colors.transparent))
 
 
                   ],
@@ -192,14 +201,14 @@ class _RegistationState extends State<Registation> {
                     borderRadius: BorderRadius.circular(18.0),
                   ),
                   onPressed: () async {
-                    if (_formKey.currentState.validate()) {
+                    if (_formKey.currentState.validate()&&photodata!=null) {
                       try{
 //                      setState(() {
 //                        _saving=true;
 //                      });
                      _formKey.currentState.save();
-                   var usermodel=UserChat('',UserName,photo,Password,Email);
-                     UserChat res=await buss.CreatNewuser(usermodel);
+                   var usermodel=UserChat('',UserName,photodata['filename'],Password,Email);
+                     UserChat res=await buss.CreatNewuser(usermodel,photodata['file']);
                    if(res.Id!='')  {
                      _ScaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Save Success Please Login with new Account"),
                      duration: Duration(seconds: 3),));
@@ -248,6 +257,12 @@ class _RegistationState extends State<Registation> {
 //                      });
                       }
 
+                    }else{
+                      if(photodata==null){
+                        setState(() {
+                          isphoto=true;
+                        });
+                      }
                     }
                   },
                   child:const Text(

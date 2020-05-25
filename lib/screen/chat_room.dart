@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 class ChatRoom extends StatefulWidget{
 final String sendUser;
 final String sendUserId;
-  ChatRoom({@required this.sendUser,@required this.sendUserId});
+final String photo;
+  ChatRoom({@required this.sendUser,@required this.sendUserId,this.photo});
 
   @override
   _ChatRoomState createState() => _ChatRoomState();
@@ -47,10 +48,16 @@ void initState(){
 //      .where('ReceiverId',whereIn :[widget.sendUserId,snapshot.data['loginnameId']])
 //      .snapshots(),
 
+//      .where('SendId',isEqualTo:widget.sendUserId)
+//      .where('SendId',isEqualTo:snapshot.data['loginnameId'])
+//      .where('ReceiverId',isEqualTo:widget.sendUserId)
+//      .where('ReceiverId',isEqualTo:snapshot.data['loginnameId'])
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         title: Text(widget.sendUser, style: TextStyle(color: Colors.black)),
       ),
       body: Column(
@@ -63,11 +70,7 @@ void initState(){
     if (snapshot.hasData) {
       ObjLoginUser=snapshot.data;
       return StreamBuilder(
-          stream: Firestore.instance.collection("MessageChat")
-              .where('SendId',isEqualTo:widget.sendUserId)
-              .where('SendId',isEqualTo:snapshot.data['loginnameId'])
-              .where('ReceiverId',isEqualTo:widget.sendUserId)
-              .where('ReceiverId',isEqualTo:snapshot.data['loginnameId']).snapshots(),
+          stream: Firestore.instance.collection("MessageChat").snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> asyncSnapshot){
             if(asyncSnapshot.hasError){
               return Center(
