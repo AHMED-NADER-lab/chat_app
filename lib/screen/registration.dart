@@ -165,7 +165,7 @@ class _RegistationState extends State<Registation> {
                       ),
                     ),
                     SizedBox(
-                      height: 25,
+                      height: 10,
                     ),
                     RaisedButton(
                         onPressed: () async {
@@ -193,7 +193,7 @@ class _RegistationState extends State<Registation> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: const EdgeInsets.only(bottom: 30,left: 30,right: 30),
               child: SizedBox(
                 height: 50,
                 child: RaisedButton(

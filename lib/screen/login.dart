@@ -31,8 +31,7 @@ class _LoginState extends State<Login> {
         Hero(
         tag: 'imageChat',
           child: Image.asset('images/multimedia.png',
-            height: 150,
-            width: 150,),
+            height: MediaQuery.of(context).size.height* (MediaQuery.of(context).orientation==Orientation.portrait?0.2:0.5)),
         ),
             Form(
               key:_formKey ,
@@ -139,7 +138,7 @@ class _LoginState extends State<Login> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: const EdgeInsets.only(bottom: 30,left: 30,right: 30),
               child: SizedBox(
                 height: 50,
                 child: RaisedButton(
